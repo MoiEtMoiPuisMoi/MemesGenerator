@@ -2,7 +2,7 @@ import discord
 from meme.meme import *
 from discord.ext import commands
 
-TOKEN = 'NzkxMzk2MDMzOTk3MDQ1Nzkw.X-Oi_Q.WWvuNJh_t0V_sdKTJf0XpjtU9gQ'
+TOKEN = 'YOUR TOKEN'
 prefix = '!'
 bot = commands.Bot(command_prefix=prefix)
 bot.remove_command('help')

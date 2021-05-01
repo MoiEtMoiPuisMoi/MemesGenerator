@@ -17,6 +17,7 @@ bot.remove_command('help')
 #  |_|  |_| \___/ |_|  |_||_|  |____/  \___/ |_||____/  #
 #                                                       #
 #########################################################
+
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):

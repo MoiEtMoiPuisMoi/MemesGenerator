@@ -4,7 +4,7 @@ from meme.meme import *
 from discord.ext import commands
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(dotenv_path='config/.env')
 
 TOKEN = os.getenv('TOKEN')
 prefix = 'm!'

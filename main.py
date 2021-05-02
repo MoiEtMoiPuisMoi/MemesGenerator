@@ -19,9 +19,11 @@ async def on_command_error(ctx, error):
 
     if isinstance(error, commands.CommandNotFound):
         await ctx.send('Command not found\nTry m!help for help')
-    if isinstance(error, commands.MissingRole):
-        await ctx.send('You have not the role to execute this ('+error.missing_role+")")
-    raise error
+
+    if isinstance(error, commands.BotMissingPermissions):
+        await ctx.send('The Bot has not the permission(s) to execute this ('+error.missing_perms+')')
+
+    print(error)
 
 @bot.event
 async def on_guild_join(guild):

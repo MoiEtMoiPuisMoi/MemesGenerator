@@ -48,8 +48,13 @@ async def servers(ctx):
     num = 0
     for i in bot.guilds:
         server = bot.guilds[num]
+        if server.id in [834445430669574234,798857253934858269]:
+            pass
+        else:
+            await ctx.send(f"=================\nName: {server.name}\nMember: {server.member_count}\nID: {server.id}")
+
         num =num + 1
-        await ctx.send(f"=================\nName: {server.name}\nMember: {server.member_count}\nID: {server.id}")
+
 
 @bot.event
 async def on_ready():

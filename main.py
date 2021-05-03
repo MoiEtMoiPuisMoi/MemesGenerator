@@ -42,7 +42,6 @@ async def on_guild_join(guild):
     logChannel = bot.get_channel(838083718802440232)
     await logChannel.send("Bot has joined \""+str(guild)+"\"")
 
-
 @bot.command()
 async def servers(ctx):
     await ctx.send('Server List:')
@@ -97,6 +96,7 @@ async def about(ctx):
     embed.add_field(name="Moi#5013", value="The Coder", inline=False)
     embed.add_field(name="Cam15#2706", value="The Imaginator", inline=False)
     await ctx.message.author.send("https://discord.me/memeshub", embed=embed)
+    await ctx.send('Message send in DM')
 
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)

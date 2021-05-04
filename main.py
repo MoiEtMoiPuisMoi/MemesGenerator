@@ -39,7 +39,7 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_guild_join(guild):
-    logChannel = bot.get_channel(838083718802440232)
+    logChannel = bot.get_channel(838444862210179132)
     await logChannel.send("Bot has joined \""+str(guild)+"\"")
 
 @bot.command()
@@ -53,7 +53,7 @@ async def servers(ctx):
         else:
             await ctx.send(f"=================\nName: {server.name}\nMember: {server.member_count}\nID: {server.id}")
 
-        num =num + 1
+        num = num + 1
 
 
 @bot.event
@@ -100,7 +100,7 @@ async def about(ctx):
         url="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Red_information_icon_with_gradient_background.svg/1024px-Red_information_icon_with_gradient_background.svg.png")
     embed.add_field(name="Moi#5013", value="The Coder", inline=False)
     embed.add_field(name="Cam15#2706", value="The Imaginator", inline=False)
-    await ctx.message.author.send("https://discord.me/memeshub", embed=embed)
+    await ctx.message.author.send("", embed=embed)
     await ctx.send('Message send in DM')
 
 @bot.command()

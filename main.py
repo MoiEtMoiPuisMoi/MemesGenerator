@@ -100,7 +100,7 @@ async def about(ctx):
         url="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Red_information_icon_with_gradient_background.svg/1024px-Red_information_icon_with_gradient_background.svg.png")
     embed.add_field(name="Moi#5013", value="The Coder", inline=False)
     embed.add_field(name="Cam15#2706", value="The Imaginator", inline=False)
-    await ctx.message.author.send("", embed=embed)
+    await ctx.message.author.send("https://www.coolcraft.ovh/memeshub", embed=embed)
     await ctx.send('Message send in DM')
 
 @bot.command()

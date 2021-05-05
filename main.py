@@ -3,6 +3,8 @@ import os
 from meme.meme import *
 from discord.ext import commands
 from dotenv import load_dotenv
+from flask import Flask
+
 
 load_dotenv(dotenv_path='config/.env')
 
@@ -10,7 +12,7 @@ TOKEN = os.getenv('TOKEN')
 prefix = 'm!'
 bot = commands.Bot(command_prefix=prefix)
 bot.remove_command('help')
-
+app = Flask(__name__)
 
 #########################################################
 #         Bot devlopped by Moi#5013 on discord          #
@@ -75,7 +77,7 @@ async def servers(ctx):
 async def on_ready():
     await bot.change_presence(activity=discord.Game(name="m!help"))
     print('I am ready')
-
+    app.run(port=5000)
 
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
@@ -128,5 +130,21 @@ async def help(ctx):
     embed.add_field(name="m!about", value="Send private message to our Discord Me Page", inline=False)
     embed.add_field(name="m!help", value="Show this message", inline=False)
     await ctx.send(embed=embed)
+
+@app.route('/')
+def mflask():
+    tmember = 0
+    num2 = 0
+    for i in bot.guilds:
+        server = bot.guilds[num2]
+        if server.id in [834445430669574234, 798857253934858269]:
+            pass
+        else:
+            tmember = tmember + int(server.member_count)
+
+        num2 = num2 + 1
+
+    jfile = {'users':tmember,'servers':len(bot.guilds)}
+    return jfile
 
 bot.run(TOKEN)

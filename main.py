@@ -77,7 +77,7 @@ async def servers(ctx):
 async def on_ready():
     await bot.change_presence(activity=discord.Game(name="m!help"))
     print('I am ready')
-    app.run(port=5000)
+    #app.run(port=5000)
 
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)

@@ -66,7 +66,7 @@ async def servers(ctx):
 
         num2 = num2 + 1
 
-    await ctx.send(f"Total Member: {tmember}\nAnd {len(bot.guilds)}\'s servers'")
+    await ctx.send(f"=================\nTotal Member: {tmember}\nAnd {len(bot.guilds)}\'s servers'")
 
 
 @bot.event

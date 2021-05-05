@@ -43,6 +43,7 @@ async def on_guild_join(guild):
     await logChannel.send("Bot has joined \""+str(guild)+"\"")
 
 @bot.command()
+@commands.is_owner()
 async def servers(ctx):
     await ctx.send('Server List:')
     num = 0
@@ -53,7 +54,7 @@ async def servers(ctx):
         if server.id in [834445430669574234,798857253934858269]:
             pass
         else:
-            await ctx.send(f"=================\nName: {server.name}\nMember: {server.member_count}\nID: {server.id}")
+            await ctx.send(f"=================\nName: {server.name}\nMember: {server.member_count}\nID: {server.id}\nOwner ID: {server.owner_id}")
 
         num = num + 1
 

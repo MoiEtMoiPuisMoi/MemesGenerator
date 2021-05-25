@@ -3,7 +3,7 @@ import os
 from meme.meme import *
 from discord.ext import commands
 from dotenv import load_dotenv
-from time import sleep
+import asyncio
 
 load_dotenv(dotenv_path='config/.env')
 
@@ -71,21 +71,17 @@ async def servers(ctx):
     else:
         await ctx.send("Command not found\nTry m!help for help")
 
+async def status_task():
+    while True:
+        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="%s Guilds" % (len(bot.guilds))))
+        await asyncio.sleep(5)
+        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="m!help"))
+        await asyncio.sleep(5)
+
 @bot.event
 async def on_ready():
     print('I am ready')
-    help = False
-    """while True:
-        sleep(5)
-        if help == False:
-            activity = discord.Activity(type=discord.ActivityType.watching, name="%s Guilds" % (len(bot.guilds)))
-            help = True
-
-        if help == True:
-            activity = discord.Activity(type=discord.ActivityType.watching, name="m!help")
-            help = False
-
-        await bot.change_presence(activity=activity)"""
+    bot.loop.create_task(status_task())
 
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)

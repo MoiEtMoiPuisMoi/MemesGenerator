@@ -3,6 +3,7 @@ import os
 from meme.meme import *
 from discord.ext import commands
 from dotenv import load_dotenv
+from time import sleep
 
 load_dotenv(dotenv_path='config/.env')
 
@@ -72,8 +73,19 @@ async def servers(ctx):
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=discord.Game(name="m!help"))
     print('I am ready')
+    help = False
+    while True:
+        sleep(5)
+        if help == False:
+            activity = discord.Activity(type=discord.ActivityType.watching, name="%s Guilds" % (len(bot.guilds)))
+            help = True
+
+        if help == True:
+            activity = discord.Activity(type=discord.ActivityType.watching, name="m!help")
+            help = False
+
+        await bot.change_presence(activity=activity)
 
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)

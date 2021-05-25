@@ -75,7 +75,7 @@ async def servers(ctx):
 async def on_ready():
     print('I am ready')
     help = False
-    while True:
+    """while True:
         sleep(5)
         if help == False:
             activity = discord.Activity(type=discord.ActivityType.watching, name="%s Guilds" % (len(bot.guilds)))
@@ -85,7 +85,7 @@ async def on_ready():
             activity = discord.Activity(type=discord.ActivityType.watching, name="m!help")
             help = False
 
-        await bot.change_presence(activity=activity)
+        await bot.change_presence(activity=activity)"""
 
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)

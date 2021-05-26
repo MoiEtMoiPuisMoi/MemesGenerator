@@ -4,6 +4,7 @@ from meme.meme import *
 from discord.ext import commands
 from dotenv import load_dotenv
 import asyncio
+import datetime
 
 load_dotenv(dotenv_path='config/.env')
 
@@ -23,19 +24,22 @@ bot.remove_command('help')
 #                                                       #
 #########################################################
 
-
 @bot.event
 async def on_command_error(ctx, error):
+    x = datetime.datetime.now()
     if isinstance(error, commands.CommandOnCooldown):
-        await ctx.send('Try in %.2fs' %(error.retry_after))
+        after = "%.2fs" %(error.retry_after)
+        await ctx.send(f'Try in {after}')
+        print(f"[{ctx.message.author}] at {x.hour}:{x.minute} => Try after {after}")
 
     if isinstance(error, commands.CommandNotFound):
         await ctx.send('Command not found\nTry m!help for help')
+        print(f"[{ctx.message.author}] at {x.hour}:{x.minute} => Command not found")
 
     if isinstance(error, commands.BotMissingPermissions):
         await ctx.send('The Bot has not the permission(s) to execute this ('+error.missing_perms+')')
+        print(f"[{ctx.message.author}] at {x.hour}:{x.minute} => The Bot has not the permission(s) to execute this ('+error.missing_perms+')")
 
-    print(error)
 
 @bot.event
 async def on_guild_join(guild):

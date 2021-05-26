@@ -45,13 +45,13 @@ async def on_guild_join(guild):
 @bot.command()
 async def servers(ctx):
     if ctx.message.author.id == 421001877287862278:
-        message = 'Server List:\n'
+        await ctx.send('Server List:')
         num = 0
         num2 = 0
         tmember = 0
         for i in bot.guilds:
             server = bot.guilds[num]
-            message = message + f"=================\nName: {server.name}\nMember: {server.member_count}\nID: {server.id}\nOwner ID: {server.owner_id}\n"
+            await ctx.send(f"=================\nName: {server.name}\nMember: {server.member_count}\nID: {server.id}\nOwner ID: {server.owner_id}\n")
 
             num = num + 1
 
@@ -61,10 +61,7 @@ async def servers(ctx):
 
             num2 = num2 + 1
 
-
-
-        message = message + f"=================\nTotal Member: {tmember}\nAnd {len(bot.guilds)}\'s servers"
-        await ctx.send(message)
+        await ctx.send(f"=================\nTotal Member: {tmember}\nAnd {len(bot.guilds)}\'s servers'")
     else:
         await ctx.send("Command not found\nTry m!help for help")
 

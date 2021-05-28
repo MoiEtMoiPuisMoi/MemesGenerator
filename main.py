@@ -9,6 +9,8 @@ import datetime
 load_dotenv(dotenv_path='config/.env')
 
 TOKEN = os.getenv('TOKEN')
+blacklist = []
+author = "Moi#5013"
 prefix = 'm!'
 bot = commands.Bot(command_prefix=prefix)
 bot.remove_command('help')
@@ -69,11 +71,24 @@ async def servers(ctx):
     else:
         await ctx.send("Command not found\nTry m!help for help")
 
+def getMembers():
+    tmember = 0
+    num2 = 0
+    for i in bot.guilds:
+        server = bot.guilds[num2]
+        tmember = tmember + int(server.member_count)
+
+        num2 = num2 + 1
+
+    return str(tmember)
+
 async def status_task():
     while True:
         await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="%s Guilds" % (len(bot.guilds))))
         await asyncio.sleep(5)
         await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="m!help"))
+        await asyncio.sleep(5)
+        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="%s Users" %(getMembers())))
         await asyncio.sleep(5)
 
 @bot.event
@@ -84,53 +99,62 @@ async def on_ready():
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def meme(ctx):
-    memer = Meme()
-    spoiled = ""
-    nsfwed = ""
-
-    embed = discord.Embed(title=memer.title, url=memer.postLink, color=0xff4500)
-    embed.set_author(name=memer.subreddit, url="https://www.reddit.com/r/"+memer.subreddit,
-                     icon_url="https://data.apksum.com/cb/com.jetfuel.colormeme/10.0/icon.png")
-    embed.set_footer(text="👍: "+str(memer.ups))
-
-    if memer.spoiler == True:
-        spoiled = "WARNING This meme is tagged (SPOILER)\n"
-        embed.set_image(url='https://i.ibb.co/9npPd82/spoil.png')
-    else:
+    if ctx.message.guild.id not in blacklist:
+        memer = Meme()
         spoiled = ""
-        embed.set_image(url=memer.url)
-
-    if memer.nsfw == True:
-        nsfwed = "WARNING This meme is tagged (NSFW)\n"
-        embed.set_image(url='https://i.ibb.co/9npPd82/spoil.png')
-    else:
         nsfwed = ""
-        embed.set_image(url=memer.url)
 
-    await ctx.send(spoiled+nsfwed, embed=embed)
+        embed = discord.Embed(title=memer.title, url=memer.postLink, color=0xff4500)
+        embed.set_author(name=memer.subreddit, url="https://www.reddit.com/r/"+memer.subreddit,
+                         icon_url="https://data.apksum.com/cb/com.jetfuel.colormeme/10.0/icon.png")
+        embed.set_footer(text="👍: "+str(memer.ups))
+
+        if memer.spoiler == True:
+            spoiled = "WARNING This meme is tagged (SPOILER)\n"
+            embed.set_image(url='https://i.ibb.co/9npPd82/spoil.png')
+        else:
+            spoiled = ""
+            embed.set_image(url=memer.url)
+
+        if memer.nsfw == True:
+            nsfwed = "WARNING This meme is tagged (NSFW)\n"
+            embed.set_image(url='https://i.ibb.co/9npPd82/spoil.png')
+        else:
+            nsfwed = ""
+            embed.set_image(url=memer.url)
+
+        await ctx.send(spoiled+nsfwed, embed=embed)
+    else:
+        await ctx.send("Your server is blacklisted\nContact "+author)
 
 
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def about(ctx):
-    embed = discord.Embed(title="\n", color=0xff0000)
-    embed.set_author(name="About Us")
-    embed.set_thumbnail(
-        url="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Red_information_icon_with_gradient_background.svg/1024px-Red_information_icon_with_gradient_background.svg.png")
-    embed.add_field(name="Moi#5013", value="The Coder", inline=False)
-    embed.add_field(name="Cam15#2706", value="The Imaginator", inline=False)
-    await ctx.message.author.send("https://www.coolcraft.ovh/memeshub", embed=embed)
-    await ctx.send('Message send in DM')
+    if ctx.message.guild.id not in blacklist:
+        embed = discord.Embed(title="\n", color=0xff0000)
+        embed.set_author(name="About Us")
+        embed.set_thumbnail(
+            url="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Red_information_icon_with_gradient_background.svg/1024px-Red_information_icon_with_gradient_background.svg.png")
+        embed.add_field(name="Moi#5013", value="The Coder", inline=False)
+        embed.add_field(name="Cam15#2706", value="The Imaginator", inline=False)
+        await ctx.message.author.send("https://www.coolcraft.ovh/memeshub", embed=embed)
+        await ctx.send('Message send in DM')
+    else:
+        await ctx.send("Your server is blacklisted\nContact "+author)
 
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def help(ctx):
-    embed = discord.Embed(title="\n")
-    embed.set_author(name="Help")
-    embed.set_thumbnail(url="https://mypass.ace-energy.co.th/asset/img/icon_helpdesk.png")
-    embed.add_field(name="m!meme", value="Show a random meme", inline=False)
-    embed.add_field(name="m!about", value="Send private message to our Discord Me Page", inline=False)
-    embed.add_field(name="m!help", value="Show this message", inline=False)
-    await ctx.send(embed=embed)
+    if ctx.message.guild.id not in blacklist:
+        embed = discord.Embed(title="\n")
+        embed.set_author(name="Help")
+        embed.set_thumbnail(url="https://mypass.ace-energy.co.th/asset/img/icon_helpdesk.png")
+        embed.add_field(name="m!meme", value="Show a random meme", inline=False)
+        embed.add_field(name="m!about", value="Send private message to our Discord Me Page", inline=False)
+        embed.add_field(name="m!help", value="Show this message", inline=False)
+        await ctx.send(embed=embed)
+    else:
+        await ctx.send("Your server is blacklisted\nContact "+author)
 
 bot.run(TOKEN)

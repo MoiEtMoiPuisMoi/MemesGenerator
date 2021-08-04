@@ -9,7 +9,8 @@ import datetime
 load_dotenv(dotenv_path='config/.env')
 
 TOKEN = os.getenv('TOKEN')
-blacklist = []
+blacklistguilds = []
+blacklistusers = []
 author = "Moi#5013"
 prefix = 'm!'
 bot = commands.Bot(command_prefix=prefix)
@@ -99,7 +100,8 @@ async def on_ready():
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def meme(ctx):
-    if ctx.message.guild.id not in blacklist:
+    if ctx.message.guild.id not in blacklistguilds or ctx.message.author.id in blacklistusers:
+
         memer = Meme()
         spoiled = ""
         nsfwed = ""

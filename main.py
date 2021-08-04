@@ -143,7 +143,9 @@ async def meme(ctx):
             nsfwed = ""
             embed.set_image(url=memer.url)
 
-        await ctx.send(spoiled+nsfwed, embed=embed)
+        msg = await ctx.send(spoiled+nsfwed, embed=embed)
+        await msg.add_reaction("👍")
+        await msg.add_reaction("👎")
 
     else:
         await ctx.send("Your server is blacklisted\nContact "+author)

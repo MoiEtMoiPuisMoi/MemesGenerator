@@ -6,6 +6,13 @@ from dotenv import load_dotenv
 import asyncio
 import datetime
 
+
+cmdcount = {
+    "help": 0,
+    "about": 0,
+    "meme": 0
+}
+global count
 load_dotenv(dotenv_path='config/.env')
 
 TOKEN = os.getenv('TOKEN')
@@ -48,6 +55,17 @@ async def on_command_error(ctx, error):
 async def on_guild_join(guild):
     logChannel = bot.get_channel(838444862210179132)
     await logChannel.send("Bot has joined \""+str(guild)+"\"")
+
+
+@bot.command()
+async def requests(ctx):
+    if ctx.message.author.id == 421001877287862278:
+        embed = discord.Embed(title="‎", color=0xff0000)
+        embed.set_author(name="Requests Results")
+        embed.add_field(name="m!meme", value=str(cmdcount["meme"]), inline=False)
+        embed.add_field(name="m!help", value=str(cmdcount["help"]),inline=False)
+        embed.add_field(name="m!about", value=str(cmdcount["about"]), inline=False)
+        await ctx.send(embed=embed)
 
 @bot.command()
 async def servers(ctx):
@@ -100,8 +118,8 @@ async def on_ready():
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def meme(ctx):
-    if ctx.message.guild.id not in blacklistguilds or ctx.message.author.id in blacklistusers:
-
+    cmdcount["meme"] += 1
+    if ctx.message.guild.id not in blacklistguilds or ctx.message.author.id not in blacklistusers:
         memer = Meme()
         spoiled = ""
         nsfwed = ""
@@ -126,6 +144,7 @@ async def meme(ctx):
             embed.set_image(url=memer.url)
 
         await ctx.send(spoiled+nsfwed, embed=embed)
+
     else:
         await ctx.send("Your server is blacklisted\nContact "+author)
 
@@ -133,7 +152,8 @@ async def meme(ctx):
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def about(ctx):
-    if ctx.message.guild.id not in blacklist:
+    cmdcount["about"] += 1
+    if ctx.message.guild.id not in blacklistguilds and ctx.message.author.id not in blacklistusers:
         embed = discord.Embed(title="\n", color=0xff0000)
         embed.set_author(name="About Us")
         embed.set_thumbnail(
@@ -148,7 +168,8 @@ async def about(ctx):
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def help(ctx):
-    if ctx.message.guild.id not in blacklist:
+    cmdcount["help"] += 1
+    if ctx.message.guild.id not in blacklistguilds and ctx.message.author.id not in blacklistusers:
         embed = discord.Embed(title="\n")
         embed.set_author(name="Help")
         embed.set_thumbnail(url="https://mypass.ace-energy.co.th/asset/img/icon_helpdesk.png")

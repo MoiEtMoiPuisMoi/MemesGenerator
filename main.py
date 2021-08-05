@@ -10,7 +10,9 @@ import datetime
 cmdcount = {
     "help": 0,
     "about": 0,
-    "meme": 0
+    "meme": 0,
+    "unknow": 0,
+    "cooldown": 0
 }
 global count
 load_dotenv(dotenv_path='config/.env')
@@ -38,11 +40,13 @@ bot.remove_command('help')
 async def on_command_error(ctx, error):
     x = datetime.datetime.now()
     if isinstance(error, commands.CommandOnCooldown):
+        cmdcount["cooldown"] += 1
         after = "%.2fs" %(error.retry_after)
         await ctx.send(f'Try in {after}')
         print(f"[{ctx.message.author}] at {x.hour}:{x.minute} => Try after {after}")
 
     if isinstance(error, commands.CommandNotFound):
+        cmdcount["unknow"] += 1
         await ctx.send('Command not found\nTry m!help for help')
         print(f"[{ctx.message.author}] at {x.hour}:{x.minute} => Command not found")
 
@@ -65,6 +69,8 @@ async def requests(ctx):
         embed.add_field(name="m!meme", value=str(cmdcount["meme"]), inline=False)
         embed.add_field(name="m!help", value=str(cmdcount["help"]),inline=False)
         embed.add_field(name="m!about", value=str(cmdcount["about"]), inline=False)
+        embed.add_field(name="Cooldown", value=str(cmdcount["cooldown"]), inline=False)
+        embed.add_field(name="Unknow", value=str(cmdcount["unknow"]), inline=False)
         await ctx.send(embed=embed)
 
 @bot.command()
